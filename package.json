@@ -2,7 +2,7 @@
   "name": "community-service",
   "version": "0.1.0",
   "bin": {
-    "community-service": "bin/community-service.js"
+    "community-service": "bin/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -13,14 +13,16 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.7.9",
+    "aws-cdk": "2.177.0",
+    "dotenv": "^16.4.7",
     "jest": "^29.7.0",
     "ts-jest": "^29.2.5",
-    "aws-cdk": "2.177.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.6.3"
   },
   "dependencies": {
     "aws-cdk-lib": "2.177.0",
+    "cargo-lambda-cdk": "^0.0.17",
     "constructs": "^10.0.0"
   }
 }
