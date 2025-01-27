@@ -36,7 +36,7 @@ export class PipelineStack extends cdk.Stack {
   }
 
   private createFeatureDevPipeline() {
-    new PipelineStage(this, `Develop-${environments.featureDev.stageName}`, {
+    new PipelineStage(this, `Develop-${environments.develop.stageName}`, {
       ...environments.develop
     })
   }
