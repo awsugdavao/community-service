@@ -36,21 +36,21 @@ export class PipelineStack extends cdk.Stack {
   }
 
   private createFeatureDevPipeline() {
-    new PipelineStage(this, 'FeatureDevPipeline', {
-      ...environments.featureDev
+    new PipelineStage(this, `Develop-${environments.featureDev.stageName}`, {
+      ...environments.develop
     })
   }
 
   private createMainPipeline() {
-    const developStage = new PipelineStage(this, 'DevelopPipeline', {
-      ...environments.develop
+    const featureDevStage = new PipelineStage(this, `FeatureDev`, {
+      ...environments.featureDev
     })
 
-    this.pipeline.addStage(developStage, {
+    this.pipeline.addStage(featureDevStage, {
       post: [
         new pipelines.ShellStep('HealthCheck', {
           envFromCfnOutputs: {
-            HEALTH_CHECK_URL: developStage.healthCheckUrl
+            HEALTH_CHECK_URL: featureDevStage.healthCheckUrl
           },
           commands: ['curl -f ${HEALTH_CHECK_URL}']
         })

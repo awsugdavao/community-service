@@ -10,7 +10,7 @@ import {
 dotenv.config();
 
 export const environments: Record<Stage, EnvironmentConfig> = {
-  [Stage.featureDev]: {
+  [Stage.develop]: {
     env: {
       account:
         process.env.ACCOUNT || (process.env.CDK_DEFAULT_ACCOUNT as string),
@@ -24,7 +24,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
     stageName: process.env.PR_NUMBER || Stage.featureDev,
   },
 
-  [Stage.develop]: {
+  [Stage.featureDev]: {
     env: {
       account: Account.develop,
       region: Region.singapore,
