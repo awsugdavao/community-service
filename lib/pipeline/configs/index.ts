@@ -21,7 +21,7 @@ export const environments: Record<Stage, EnvironmentConfig> = {
     stateless: {
       lambdaMemorySize: parseInt(process.env.LAMBDA_MEM_SIZE || '128'),
     },
-    stageName: process.env.PR_NUMBER || Stage.featureDev,
+    stageName: process.env.DEVELOPER_NAME || Stage.develop,
   },
 
   [Stage.featureDev]: {
