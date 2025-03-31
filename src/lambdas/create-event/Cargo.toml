@@ -1,0 +1,13 @@
+[package]
+name = "create-event"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+shared = { path = "../../shared" }
+lambda_http = "0.14.0"
+tokio = { version = "1", features = ["macros"] }
+aws-sdk-dynamodb = "1.62.0"
+aws-config = { version = "1.5.15", features = ["behavior-version-latest"] }
+serde = "1.0.217"
+ulid = "1.1.4"

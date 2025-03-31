@@ -1,12 +1,13 @@
 import * as cdk from 'aws-cdk-lib';
 import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import { Construct } from 'constructs';
-import { RustFunction } from 'cargo-lambda-cdk';
-import path = require('path');
+import { RustExtension, RustFunction } from 'cargo-lambda-cdk';
+import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 
 interface StatelessStackProps extends cdk.StackProps {
   lambdaMemorySize: number;
   stageName: string;
+  // eventTable: dynamodb.Table;
 }
 
 export class StatelessStack extends cdk.Stack {
@@ -42,11 +43,36 @@ export class StatelessStack extends cdk.Stack {
     const healthCheck: apigw.Resource = this.api.root.addResource('health-check')
 
     const healthCheckLambda = new RustFunction(this, 'HealthCheckLambda', {
-      manifestPath: "src/lambdas/health-check/Cargo.toml",
+      manifestPath: "src/lambdas/health-check",
       memorySize: props.lambdaMemorySize,
     })
 
     healthCheck.addMethod('GET', new apigw.LambdaIntegration(healthCheckLambda))
+
+    const event: apigw.Resource = this.api.root.addResource('event')
+
+    const createEventLambda = new RustFunction(this, 'CreateEventLambda', {
+      manifestPath: "src/lambdas/create-event",
+      memorySize: props.lambdaMemorySize,
+      environment: {
+        // EVENT_TABLE: props.eventTable.tableName,
+      },
+    })
+
+    event.addMethod('POST', new apigw.LambdaIntegration(createEventLambda))
+
+    // props.eventTable.grantWriteData(createEventLambda)
+
+    // const getEventLambda = new RustFunction(this, 'GetEventLambda', {
+    //   manifestPath: "src/lambdas/get_event",
+    //   memorySize: props.lambdaMemorySize,
+    //   environment: {
+    //     EVENT_TABLE: props.eventTable.tableName,
+    //   },
+    //   layers: [extensionLayer]
+    // })
+
+    // event.addMethod('GET', new apigw.LambdaIntegration(getEventLambda))
   }
 
   private createOutputs(props: StatelessStackProps) {
